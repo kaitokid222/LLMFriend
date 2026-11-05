@@ -68,10 +68,12 @@ Prüfungen:
 - WPF-Client gestartet und Windows-Accessibility-Struktur geprüft: Fenster, API-Adresse, Nutzername, Passwort und Anmeldebutton sichtbar. Screenshot-Capture und Klicktest scheiterten an der UI-Capture-Schnittstelle; kein erfolgreicher visueller oder End-to-End-UI-Test behauptet.
 - Freigegebener lokaler MySQL-Integrationstest: **nicht ausgeführt**. Docker Desktop stellte keinen Engine-Prozess bereit; `Start-Service com.docker.service` scheiterte an fehlenden Windows-Rechten. Eine grüne MySQL-Prüfung liegt lokal nicht vor.
 - Live-Discord-OAuth-Test: nicht ausgeführt, da noch keine Discord-Developer-App und keine Zugangsdaten vorhanden sind.
-- GitHub Actions für Commit `9137232`: WPF-Build und 3 Kernprüfungen erfolgreich; MySQL-Vertragstest fehlgeschlagen. Der erste CI-Lauf unterdrückte den konkreten Fehler durch `--verbosity quiet`; die Ausgabe wurde für den nächsten Lauf erweitert. Endergebnis vor Abschluss nachtragen.
-- GitHub Actions für Commit `ab87348`: WPF-Build und Kernprüfungen erfolgreich; MySQL-Vertragstest scheiterte bei `UserService.FindAsync` an Dappers String-Mapping einer von MySqlConnector als `Guid` gelesenen `CHAR(36)`-ID. `GuidFormat=None` in `Database` behebt die Ursache; erneuter CI-Lauf steht aus.
+- GitHub Actions für Commit `9137232`: WPF-Build und 3 Kernprüfungen erfolgreich; MySQL-Vertragstest fehlgeschlagen. Der erste CI-Lauf unterdrückte den konkreten Fehler durch `--verbosity quiet`; die Ausgabe wurde für den nächsten Lauf erweitert.
+- GitHub Actions für Commit `ab87348`: WPF-Build und Kernprüfungen erfolgreich; MySQL-Vertragstest scheiterte bei `UserService.FindAsync` an Dappers String-Mapping einer von MySqlConnector als `Guid` gelesenen `CHAR(36)`-ID. `GuidFormat=None` in `Database` behebt die Ursache.
 - `dotnet build LLMFriend.sln -v:q` nach der MySQL-Mapping-Korrektur: erfolgreich, 0 Warnungen, 0 Fehler.
+- GitHub Actions für Commit `3280d3d` ([Lauf 42131631717](https://github.com/kaitokid222/LLMFriend/actions/runs/42131631717)): `headless-core` einschließlich der MySQL-Vertragsprüfung erfolgreich; separater `wpf-build` erfolgreich.
+- Abschließender Quellenabgleich des Logeintrags mit GitHub-Actions-Lauf 42131631717 sowie `git diff --check` und Diff-Prüfung: Link und Ergebnisse stimmen; keine Whitespace-Fehler. Für diesen reinen Log-Nachtrag wurden keine Anwendung oder weiteren lokalen Tests gestartet.
 
 Quellen (nur gelesen, keine Änderungsdateien): Discord- und .NET-Dokumentation, MySQL-8.4-Dokumentation, die fremden GitHub-Projekte `PomeloFoundation/Pomelo.EntityFrameworkCore.MySql` und `mysql-net/MySqlConnector`.
 
-Offen: MySQL-Integrationstest im nächsten GitHub-Actions-Lauf prüfen und tatsächliches Ergebnis nachtragen. Für einen Live-OAuth-Test sind Discord-App-Konfiguration und private Zugangsdaten erforderlich; für ein Deployment fehlt der konkrete Zielserver.
+Offen: Für einen Live-OAuth-Test sind Discord-App-Konfiguration und private Zugangsdaten erforderlich; für ein Deployment fehlt der konkrete Zielserver. Der lokale Docker-Dienst braucht einen Start mit ausreichenden Windows-Rechten, falls die MySQL-Prüfung auch lokal wiederholt werden soll.
