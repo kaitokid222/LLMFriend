@@ -68,8 +68,8 @@ Prüfungen:
 - WPF-Client gestartet und Windows-Accessibility-Struktur geprüft: Fenster, API-Adresse, Nutzername, Passwort und Anmeldebutton sichtbar. Screenshot-Capture und Klicktest scheiterten an der UI-Capture-Schnittstelle; kein erfolgreicher visueller oder End-to-End-UI-Test behauptet.
 - Freigegebener lokaler MySQL-Integrationstest: **nicht ausgeführt**. Docker Desktop stellte keinen Engine-Prozess bereit; `Start-Service com.docker.service` scheiterte an fehlenden Windows-Rechten. Eine grüne MySQL-Prüfung liegt lokal nicht vor.
 - Live-Discord-OAuth-Test: nicht ausgeführt, da noch keine Discord-Developer-App und keine Zugangsdaten vorhanden sind.
-- GitHub Actions: beim ersten Commit noch ausstehend; Ergebnis vor Abschluss nachtragen.
+- GitHub Actions für Commit `9137232`: WPF-Build und 3 Kernprüfungen erfolgreich; MySQL-Vertragstest fehlgeschlagen. Der erste CI-Lauf unterdrückte den konkreten Fehler durch `--verbosity quiet`; die Ausgabe wurde für den nächsten Lauf erweitert. Endergebnis vor Abschluss nachtragen.
 
 Quellen (nur gelesen, keine Änderungsdateien): Discord- und .NET-Dokumentation, MySQL-8.4-Dokumentation, die fremden GitHub-Projekte `PomeloFoundation/Pomelo.EntityFrameworkCore.MySql` und `mysql-net/MySqlConnector`.
 
-Offen: MySQL-Integration über GitHub Actions prüfen und Ergebnis nachtragen. Für einen Live-OAuth-Test sind Discord-App-Konfiguration und private Zugangsdaten erforderlich; für ein Deployment fehlt der konkrete Zielserver.
+Offen: MySQL-Fehler aus dem nächsten GitHub-Actions-Lauf bestimmen und beheben; Ergebnis nachtragen. Für einen Live-OAuth-Test sind Discord-App-Konfiguration und private Zugangsdaten erforderlich; für ein Deployment fehlt der konkrete Zielserver.
