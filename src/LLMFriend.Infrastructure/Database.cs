@@ -11,7 +11,12 @@ public sealed class Database
     public Database(string connectionString)
     {
         if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentException("LLMFRIEND_DB fehlt.");
-        _connectionString = connectionString;
+        // IDs are stored and mapped as strings throughout the application.
+        // MySqlConnector otherwise converts every CHAR(36) column to Guid.
+        _connectionString = new MySqlConnectionStringBuilder(connectionString)
+        {
+            GuidFormat = MySqlGuidFormat.None
+        }.ConnectionString;
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 

@@ -39,7 +39,7 @@ Angefasste Dateien (vollständige Liste mit Wirkung):
 - `src/LLMFriend.Headless/appsettings.Development.json` – enthält nicht-sensitive Entwicklungs-Loggingvorgaben.
 - `src/LLMFriend.Headless/appsettings.json` – enthält nicht-sensitive Basis-Loggingvorgaben.
 - `src/LLMFriend.Infrastructure/AccountService.cs` – speichert Konten, OAuth-Vorgänge, Freigaben, Monitoring und Ereignisse.
-- `src/LLMFriend.Infrastructure/Database.cs` – öffnet MySQL-Verbindungen, migriert das Schema und definiert Datenzeilen.
+- `src/LLMFriend.Infrastructure/Database.cs` – öffnet MySQL-Verbindungen mit String-Mapping für `CHAR(36)`-IDs, migriert das Schema und definiert Datenzeilen.
 - `src/LLMFriend.Infrastructure/DiscordConnector.cs` – implementiert Discord-OAuth2, Profildaten, Serverliste und Rate-Limits.
 - `src/LLMFriend.Infrastructure/LLMFriend.Infrastructure.csproj` – bindet Dapper, MySqlConnector und eingebettete Migration ein.
 - `src/LLMFriend.Infrastructure/Migrations/001_initial.sql` – legt Nutzer-, Sitzungs-, Konto-, Freigabe-, Ereignis- und OAuth-Tabellen an.
@@ -69,7 +69,9 @@ Prüfungen:
 - Freigegebener lokaler MySQL-Integrationstest: **nicht ausgeführt**. Docker Desktop stellte keinen Engine-Prozess bereit; `Start-Service com.docker.service` scheiterte an fehlenden Windows-Rechten. Eine grüne MySQL-Prüfung liegt lokal nicht vor.
 - Live-Discord-OAuth-Test: nicht ausgeführt, da noch keine Discord-Developer-App und keine Zugangsdaten vorhanden sind.
 - GitHub Actions für Commit `9137232`: WPF-Build und 3 Kernprüfungen erfolgreich; MySQL-Vertragstest fehlgeschlagen. Der erste CI-Lauf unterdrückte den konkreten Fehler durch `--verbosity quiet`; die Ausgabe wurde für den nächsten Lauf erweitert. Endergebnis vor Abschluss nachtragen.
+- GitHub Actions für Commit `ab87348`: WPF-Build und Kernprüfungen erfolgreich; MySQL-Vertragstest scheiterte bei `UserService.FindAsync` an Dappers String-Mapping einer von MySqlConnector als `Guid` gelesenen `CHAR(36)`-ID. `GuidFormat=None` in `Database` behebt die Ursache; erneuter CI-Lauf steht aus.
+- `dotnet build LLMFriend.sln -v:q` nach der MySQL-Mapping-Korrektur: erfolgreich, 0 Warnungen, 0 Fehler.
 
 Quellen (nur gelesen, keine Änderungsdateien): Discord- und .NET-Dokumentation, MySQL-8.4-Dokumentation, die fremden GitHub-Projekte `PomeloFoundation/Pomelo.EntityFrameworkCore.MySql` und `mysql-net/MySqlConnector`.
 
-Offen: MySQL-Fehler aus dem nächsten GitHub-Actions-Lauf bestimmen und beheben; Ergebnis nachtragen. Für einen Live-OAuth-Test sind Discord-App-Konfiguration und private Zugangsdaten erforderlich; für ein Deployment fehlt der konkrete Zielserver.
+Offen: MySQL-Integrationstest im nächsten GitHub-Actions-Lauf prüfen und tatsächliches Ergebnis nachtragen. Für einen Live-OAuth-Test sind Discord-App-Konfiguration und private Zugangsdaten erforderlich; für ein Deployment fehlt der konkrete Zielserver.
